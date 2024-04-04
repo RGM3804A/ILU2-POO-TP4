@@ -1,4 +1,4 @@
-package villagegaulois;
+package villagegauloisIsOld;
 
 import personnages.Gaulois;
 
