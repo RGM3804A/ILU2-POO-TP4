@@ -11,4 +11,8 @@ public class Poisson extends Produit {
 	public String getDescription() {
 		return "Poisson pêchès " + datePeche;
 	}
+	
+	public int calculerPrix(int prix) {
+		return prix;
+	}
 }

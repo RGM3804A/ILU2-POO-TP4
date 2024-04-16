@@ -1,8 +1,9 @@
 package villageGaulois;
 
 import personnages.Gaulois;
+import produit.IProduit;
 
-public class Etal<T extends IEtal> implements IEtal {
+public class Etal<T extends IProduit> implements IEtal {
 	private Gaulois vendeur;
 	private T[] produits;
 	private int nbProduit;
@@ -17,13 +18,11 @@ public class Etal<T extends IEtal> implements IEtal {
 	
 	@Override
 	public Gaulois getVendeur() {
-		// TODO Auto-generated method stub
 		return vendeur;
 	}
 
 	@Override
 	public double donnerPrix() {
-		// TODO Auto-generated method stub
 		return prixProduit;
 	}
 
@@ -42,19 +41,34 @@ public class Etal<T extends IEtal> implements IEtal {
 
 	@Override
 	public double acheterProduit(int quantiteSouhaitee) {
-		// TODO Auto-generated method stub
-		return 0;
+		double prixPaye = 0;
+		for (int i = nbProduit - 1; i > nbProduit - quantiteSouhaitee - 1 || i > 1; i--) {
+			prixPaye += produits[i].calculerPrix(prixProduit);
+		}
+		if (nbProduit >= quantiteSouhaitee) {
+			nbProduit -= quantiteSouhaitee;
+		} else {
+			nbProduit = 0;
+		}
+		return prixPaye;
 	}
 
 	@Override
 	public String etatEtal() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder chaine = new StringBuilder(vendeur.getNom());
+		if (nbProduit > 0) {
+			chaine.append(" vend ");
+			chaine.append(nbProduit + " produits :");
+			for (int i = 0; i < nbProduit; i++) {
+				chaine.append("\n- " + produits[i].getDescription());
+		}
+		} else {
+			chaine.append(" n'a plus rien à vendre.");
+		}
+		chaine.append("\n");
+		return chaine.toString();
 	}
 	
-	@Override
-	public String getNom();{
-		return produits;
-	}
+	
 
 }

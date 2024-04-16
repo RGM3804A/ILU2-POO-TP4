@@ -8,5 +8,4 @@ public interface IEtal {
 	public int contientProduit(String produit, int quantiteSouhaitee);
 	public double acheterProduit(int quantiteSouhaitee);
 	public String etatEtal();
-	public String getNom();
 }

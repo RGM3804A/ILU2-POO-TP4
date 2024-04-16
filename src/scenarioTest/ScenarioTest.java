@@ -28,11 +28,35 @@ public class ScenarioTest {
 		Etal etalSanglier = new Etal<>();
 		Etal etalPoisson = new Etal<>();
 		marche[0] = etalSanglier;
-		marche[1] = etalPoisson;
-		marche[2] = etalSanglier;
-		marche[0].installerVendeur(asterix, (IEtal[]) sangliersAsterix , 10);
-		marche[1].installerVendeur(ordralfabetix, (IEtal[]) poissons, 7);
-		marche[0].installerVendeur(obelix, (IEtal[]) sangliersObelix , 8);
+		marche[1] = etalSanglier;
+		marche[2] = etalPoisson;
+		
+		marche[0].installerVendeur(asterix, sangliersAsterix , 10);
+		marche[1].installerVendeur(obelix, sangliersObelix , 8);
+		marche[2].installerVendeur(ordralfabetix, poissons, 7);
+		
+		StringBuilder chaine = new StringBuilder();
+		chaine.append("ETAT MARCHE\n");
+		chaine.append(marche[0].etatEtal() + "\n");
+		chaine.append(marche[1].etatEtal() + "\n");
+		chaine.append(marche[2].etatEtal() + "\n");
+		int nbSanglier = 0;
+		int sanglierRequis = 3;
+		
+		for(int i=0;i<3 && nbSanglier < sanglierRequis;i++) {
+			int sanglierAchetable = marche[i].contientProduit("Sanglier",nbSanglier);
+			if(sanglierAchetable > 0) {
+				nbSanglier += sanglierAchetable;
+				double prixPayee = marche[i].acheterProduit(sanglierAchetable);
+				chaine.append("A l'étal " + i + " je paye " + prixPayee + " sous.\n");
+			}
+		}
+		chaine.append("Je voulais " + sanglierRequis +" sangliers, j'en ai acheté " + nbSanglier + ".\n");
+		chaine.append("ETAT MARCHE\n");
+		chaine.append(marche[0].etatEtal() + "\n");
+		chaine.append(marche[1].etatEtal() + "\n");
+		chaine.append(marche[2].etatEtal() + "\n");
+		System.out.println(chaine.toString());
 	}
 	
 }

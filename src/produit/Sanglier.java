@@ -15,4 +15,8 @@ public class Sanglier extends Produit{
 	public String getDescription() {
 		return "Sanglier de " + poids + "kg chassé par " + chasseur.getNom();
 	}
+	
+	public int calculerPrix(int prix) {
+		return prix*poids;
+	}
 }
