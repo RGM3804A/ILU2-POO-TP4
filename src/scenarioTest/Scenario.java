@@ -1,16 +1,49 @@
 package scenarioTest;
 
 import personnages.Gaulois;
+import villageGaulois.IVillage;
 import produit.*;
-import villagegauloisIsOld.Etal;
-import villagegauloisIsOld.IEtal;
+import villagegauloisIsOld.DepenseMarchand;
+import villageGaulois.Etal;
+import villageGaulois.IEtal;
 
 public class Scenario {
 
 	public static void main(String[] args) {
 
 		// TODO Partie 4 : creer de la classe anonyme Village
-
+		IVillage village = new IVillage() {
+			private static final String nom = "Les Irréductibles";
+			private Gaulois chef = new Gaulois("Abraracourcix",7);
+			private IEtal[] marchand;
+			private int nbVendeur = 0;
+			
+			@Override
+			public<P extends Produit> boolean installerVendeur(Etal<P> etal, Gaulois vendeur, P[] produit, int prix) {
+				etal.installerVendeur(vendeur, produit, prix);
+				marchand[nbVendeur] = etal;
+				this.nbVendeur++;
+			}
+			
+			@Override
+			public DepenseMarchand[] acheterProduit(String produit,int quantiteSouhaitee) {
+				DepenseMarchand[] depenseMarchand = new DepenseMarchand[quantiteSouhaitee];
+				int nbDepense = 0;
+				for(int i=0;i<nbVendeur && quantiteSouhaitee > 0;i++) {
+					int qteeVendu = marchand[i].contientProduit(produit, quantiteSouhaitee);
+					if(qteeVendu>0) {
+						double sommeDepensee = marchand[i].acheterProduit(quantiteSouhaitee);
+						DepenseMarchand depense = new DepenseMarchand(marchand[i].getVendeur(),qteeVendu,produit,sommeDepensee);
+						depenseMarchand[nbDepense] = depense;
+						nbDepense++;
+						quantiteSouhaitee = quantiteSouhaitee - qteeVendu;
+					}
+				}
+				
+				return depenseMarchand;
+			}
+		};
+		
 		// fin
 
 		Gaulois ordralfabetix = new Gaulois("Ordralfabétix", 9);
@@ -47,5 +80,22 @@ public class Scenario {
 		System.out.println(village);
 
 	}
-
+	/*Village village = new Village() implements IVillage {
+		private static final String nom = "Les Irréductibles";
+		private Gaulois chef = new Gaulois("Abraracourcix",7);
+		private int nbVendeur = 0;
+		
+		@Override
+		public<T extends Produit> boolean installerVendeur(Etal<T> etal, Gaulois vendeur, T[] produit, int prix) {
+			etal.installerVendeur(vendeur, produit, prix);
+			this.nbVendeur++;
+		}
+		
+		@Override
+		public DepenseMarchand[] acheterProduit(String produit,int quantiteSouhaitee) {
+			DepenseMarchand[] depenseMarchand = new DepenseMarchand[quantiteSouhaitee];
+			int nbDepense = 0;
+			return depenseMarchand;
+		}
+	};*/
 }
